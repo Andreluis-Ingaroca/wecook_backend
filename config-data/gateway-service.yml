@@ -1,0 +1,32 @@
+server:
+  port: 8093
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://registry-service:8761/eureka/
+
+spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: cookbook-service
+          uri: lb://cookbook-service
+          predicates:
+            - Path=/cookbooks/**
+        - id: profile-service
+          uri: lb://profile-service
+          predicates:
+            - Path=/profiles/**
+        - id: recipe-service
+          uri: lb://recipe-service
+          predicates:
+            - Path=/recipes/**
+        - id: subscription-service
+          uri: lb://subscription-service
+          predicates:
+            - Path=/subscriptions/**
+            

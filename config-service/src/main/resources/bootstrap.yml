@@ -1,0 +1,47 @@
+#server:
+#  port: 8081
+#eureka:
+# client:
+#    serviceUrl:
+#      defaultZone: http://registry-service:8761/eureka
+#spring:
+#  application:
+#    name: config-service
+#  cloud:
+#    config:
+#      server:
+#        git:
+#          uri: https://github.com/Cathriel/si657-wecook-microservices.git
+#          searchPaths: config-data
+#          username: ${GIT_USER}
+#          password: ${GIT_PASSWORD}
+#          default-label: "master"
+#  security:
+#    user:
+#      name: root
+#      password: s3cr3t
+
+spring:
+  application:
+    name: config-service
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/Cathriel/si657-wecook-microservices.git
+          searchPaths: config-data
+          username: ${GIT_USER}
+          password: ${GIT_PASSWORD}
+          default-label: "master"
+  security:
+    user:
+      name: root
+      password: s3cr3t
+server:
+  port: 8081
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_SERVER:http://localhost:8761/eureka/}
+
+

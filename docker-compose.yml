@@ -1,0 +1,111 @@
+version: '3'
+services:
+  registry-service:
+    image: registry-service:latest
+    ports:
+      - 8761:8761
+    networks:
+      - heredia
+  config-service:
+    image: config-service:latest
+    environment:
+      - JAVA_OPTS=
+        -DEUREKA_SERVER=http://registry-service:8761
+    depends_on:
+      - registry-service
+    ports:
+      - 8081:8081
+    networks:
+      - heredia
+#  admin-service:
+#    image: admin-service:latest
+#    environment:
+#      - JAVA_OPTS=
+#        -DEUREKA_SERVER=http://registry-service:8761/eureka
+#    depends_on:
+#      - registry-service
+#      - config-service
+#    ports:
+#      - 8086:8086
+#    networks:
+#      - heredia
+  gateway-service:
+    image: gateway-service:latest
+    environment:
+      - JAVA_OPTS=
+        -DEUREKA_SERVER=http://registry-service:8761/eureka
+    depends_on:
+      - registry-service
+      - config-service
+     # - admin-service
+    ports:
+      - 8093:8093
+    networks:
+      - heredia
+  profile-service:
+    image: profile-service:latest
+    environment:
+      - JAVA_OPTS=
+        -DEUREKA_SERVER=http://registry-service:8761/eureka
+    depends_on:
+      - registry-service
+      - config-service
+    #  - admin-service
+      - gateway-service
+    ports:
+      - 8091:8091
+    networks:
+      - heredia
+  recipe-service:
+    image: recipe-service:latest
+    environment:
+      - JAVA_OPTS=
+        -DEUREKA_SERVER=http://registry-service:8761/eureka
+    depends_on:
+      - registry-service
+      - config-service
+     # - admin-service
+      - gateway-service
+      - profile-service
+    ports:
+      - 8092:8092
+    networks:
+      - heredia
+  cookbook-service:
+    image: cookbook-service:latest
+    environment:
+      - JAVA_OPTS=
+        -DEUREKA_SERVER=http://registry-service:8761/eureka
+    depends_on:
+      - registry-service
+      - config-service
+    #  - admin-service
+      - gateway-service
+      - profile-service
+      - recipe-service
+    ports:
+      - 8094:8094
+    networks:
+      - heredia
+  subscription-service:
+    image: subscription-service:latest
+    environment:
+      - JAVA_OPTS=
+        -DEUREKA_SERVER=http://registry-service:8761/eureka
+    restart: on-failure
+    depends_on:
+      - registry-service
+      - config-service
+     # - admin-service
+      - gateway-service
+      - profile-service
+      - recipe-service
+      - cookbook-service
+    ports:
+      - 8096:8096
+    networks:
+      - heredia
+networks:
+  heredia:
+
+

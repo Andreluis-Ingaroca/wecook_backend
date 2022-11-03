@@ -1,0 +1,24 @@
+#server:
+#  port: 8761
+#eureka:
+#  instance:
+#    hostname: registry-service
+#  client:
+#    registerWithEureka: false
+#    fetchRegistry: false
+#   serviceUrl:
+#      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+spring:
+  application:
+    name: registry-service
+server:
+  port: 8761
+eureka:
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+  cloud:
+    config:
+      uri: http://localhost:8081
+      username: root
+      password: s3cr3t
